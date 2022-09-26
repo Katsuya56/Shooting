@@ -20,6 +20,8 @@ public class ShootingFrame extends JFrame {
             }
         });
 
+        this.addKeyListener(new Keyboard());
+
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setTitle("Shooting");
         this.setSize(500, 500);

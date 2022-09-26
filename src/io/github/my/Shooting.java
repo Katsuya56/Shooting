@@ -1,6 +1,8 @@
 package io.github.my;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 public class Shooting {
     public static ShootingFrame shootingFrame;
@@ -20,12 +22,17 @@ public class Shooting {
 
         EnumShootingScreen screen = EnumShootingScreen.START;
 
+//        GAME
+        int player_x = 0, player_y = 0;
+        ArrayList<Bullet> bullets;
+        ArrayList<Enemy> enemies;
+
         while (loop) {
             if (System.currentTimeMillis() - fpsTime >= 1000) {
                 fpsTime = System.currentTimeMillis();
                 FPS = FPSCount;
                 FPSCount = 0;
-                System.out.println(FPS);
+//                System.out.println(FPS);
             }
             FPSCount++;
             startTime = System.currentTimeMillis();
@@ -46,10 +53,30 @@ public class Shooting {
                     gra.setFont(font);
                     metrics = gra.getFontMetrics(font);
                     gra.drawString("Press SPACE to Start!", 250 - metrics.stringWidth("Press SPACE to Start!") / 2, 150);
-
+                    if (Keyboard.isKeyPressed(KeyEvent.VK_SPACE)) {
+                        screen = EnumShootingScreen.GAME;
+                        bullets = new ArrayList<>();
+                        enemies = new ArrayList<>();
+                        player_x = 250;
+                        player_y = 400;
+                    }
                     break;
                 case GAME:
-                    int a = 0;
+                    int MIGRATION_LENGTH = 3;
+                    gra.setColor(Color.BLUE);
+                    gra.fillRect(player_x + 10, player_y, 10, 10);
+                    gra.fillRect(player_x, player_y + 10, 30, 10);
+                    if (Keyboard.isKeyPressed(KeyEvent.VK_RIGHT)) {
+                        player_x += MIGRATION_LENGTH;
+                    } else if (Keyboard.isKeyPressed(KeyEvent.VK_LEFT)) {
+                        player_x -= MIGRATION_LENGTH;
+                    }
+
+                    if (Keyboard.isKeyPressed(KeyEvent.VK_DOWN)) {
+                        player_y += MIGRATION_LENGTH;
+                    } else if (Keyboard.isKeyPressed(KeyEvent.VK_UP)) {
+                        player_y -= MIGRATION_LENGTH;
+                    }
                     break;
                 case GAME_OVER:
                     break;
